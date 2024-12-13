@@ -51,7 +51,7 @@ boost_linkshared = False
 def boostlibs(libnames,localenv):
    if localenv['PLATFORM'].startswith('win'):
       # Win/VC++ supports autolinking. nothing to do.
-      # http://www.boost.org/doc/libs/1_49_0/more/getting_started/windows.html#auto-linking
+      # http://www.boost.org/doc/libs/1_87_0/more/getting_started/windows.html#auto-linking
       return []
    else:
       libs = []
@@ -273,8 +273,8 @@ subprotocol_server = SConscript('#/examples/subprotocol_server/SConscript',varia
 # telemetry_server
 telemetry_server = SConscript('#/examples/telemetry_server/SConscript',variant_dir = builddir + 'telemetry_server',duplicate = 0)
 
-# external_io_service
-external_io_service = SConscript('#/examples/external_io_service/SConscript',variant_dir = builddir + 'external_io_service',duplicate = 0)
+# external_io_context
+external_io_context = SConscript('#/examples/external_io_context/SConscript',variant_dir = builddir + 'external_io_context',duplicate = 0)
 
 if not env['PLATFORM'].startswith('win'):
     # iostream_server
