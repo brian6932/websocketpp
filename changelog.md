@@ -1,5 +1,5 @@
 HEAD
-- MINOR BREAKING BUNDLED LIBRARY CHANGE: Renamed deprecated `boost::asio::io_service` to `boost::asio::io_context`, `boost::basic_waitable_timer::expires_from_now` to `boost::basic_waitable_timer::expiry`, and `boost::io_context::work` to `boost::executor_work_guard`. Removed usage of `ip::basic_resolver::query`.
+- MINOR BREAKING BUNDLED LIBRARY CHANGE: Renamed deprecated `boost::asio::io_service` to `boost::asio::io_context`, `boost::basic_waitable_timer::expires_from_now` to `boost::basic_waitable_timer::expiry`, and `boost::io_context::work` to `boost::executor_work_guard`. Removed usage of `boost::ip::basic_resolver::query`. Removed usage of `boost::ip::basic_resolver::iterator`.
 - MINOR BREAKING BUNDLED LIBRARY CHANGE: The bundled mini-HTTP library has
   been refactored to eliminate its use of exceptions. This does not affect any
   of the core library APIs. If any users are calling into the underlying HTTP

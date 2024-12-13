@@ -519,15 +519,7 @@ public:
     {
         using lib::asio::ip::tcp;
         tcp::resolver r(*m_io_context);
-        tcp::resolver::iterator endpoint_iterator = r.resolve(host, service);
-        tcp::resolver::iterator end;
-        if (endpoint_iterator == end) {
-            m_elog->write(log::elevel::library,
-                "asio::listen could not resolve the supplied host or service");
-            ec = make_error_code(error::invalid_host_service);
-            return;
-        }
-        listen(*endpoint_iterator,ec);
+        listen(*r.resolve(host, service);,ec);
     }
 
     /// Stop listening (exception free)
@@ -993,8 +985,7 @@ protected:
     }
 
     void handle_resolve(transport_con_ptr tcon, timer_ptr dns_timer,
-        connect_handler callback, lib::asio::error_code const & ec,
-        lib::asio::ip::tcp::resolver::iterator iterator)
+        connect_handler callback, lib::asio::error_code const & ec)
     {
         if (ec == lib::asio::error::operation_aborted ||
             lib::asio::is_neg(dns_timer->expiry()))
@@ -1014,11 +1005,6 @@ protected:
         if (m_alog->static_test(log::alevel::devel)) {
             std::stringstream s;
             s << "Async DNS resolve successful. Results: ";
-
-            lib::asio::ip::tcp::resolver::iterator it, end;
-            for (it = iterator; it != end; ++it) {
-                s << (*it).endpoint() << " ";
-            }
 
             m_alog->write(log::alevel::devel,s.str());
         }
@@ -1042,7 +1028,7 @@ protected:
         if (config::enable_multithreading) {
             lib::asio::async_connect(
                 tcon->get_raw_socket(),
-                iterator,
+                tcon->get_executor(),
                 tcon->get_strand()->wrap(lib::bind(
                     &type::handle_connect,
                     this,
@@ -1055,7 +1041,7 @@ protected:
         } else {
             lib::asio::async_connect(
                 tcon->get_raw_socket(),
-                iterator,
+                tcon->get_executor(),
                 lib::bind(
                     &type::handle_connect,
                     this,
